@@ -1,0 +1,7 @@
+
+dependencies {
+   compile (
+           project(':ihc-security-core'),
+           'org.springframework.session:spring-session'
+   )
+}

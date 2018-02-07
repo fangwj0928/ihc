@@ -1,0 +1,8 @@
+dependencies {
+    compile (
+            'org.springframework.boot:spring-boot-starter-security',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.security.oauth:spring-security-oauth2',
+            'org.springframework.security:spring-security-jwt'
+    )
+}

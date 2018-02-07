@@ -1,0 +1,9 @@
+rootProject.name = 'ihc'
+include 'ihc-security-core'
+include 'ihc-security-browser'
+include 'ihc-security-app'
+include 'ihc-security-demo'
+include 'sso-server'
+include 'sso-client1'
+include 'sso-client2'
+

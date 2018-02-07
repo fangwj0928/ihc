@@ -1,0 +1,91 @@
+
+ext {
+    springPlatformVersion = 'Brussels-SR6'
+    springCloudVersion = 'Edgware.RELEASE'
+}
+
+allprojects {
+
+    apply plugin: 'java'
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://maven.aliyun.com/nexus/content/groups/public/'
+        }
+        jcenter()
+        mavenCentral()
+    }
+
+    def createDir = {
+        path ->
+            File dir = new File(path)
+            if (!dir.exists()) {
+                dir.mkdirs()
+            }
+    }
+
+    task makeJavaDir() {
+        def paths = ['src/main/java', 'src/main/resources', 'src/test/java', 'src/test/resources']
+
+        doFirst {
+            paths.forEach(createDir)
+        }
+    }
+
+}
+
+subprojects {
+
+    buildscript {
+        ext {
+            springGradlePluginVersion = '1.0.0.RELEASE'
+        }
+        repositories {
+            jcenter()
+        }
+        dependencies {
+            classpath "io.spring.gradle:dependency-management-plugin:${springGradlePluginVersion}"
+        }
+    }
+
+    apply plugin: 'io.spring.dependency-management'
+
+    dependencyManagement {
+        imports {
+            mavenBom "io.spring.platform:platform-bom:${springPlatformVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+    }
+}
+
+
+buildscript {
+    ext {
+        springGradlePluginVersion = '1.0.0.RELEASE'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.spring.gradle:dependency-management-plugin:${springGradlePluginVersion}"
+    }
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+dependencyManagement {
+    imports {
+        mavenBom "io.spring.platform:platform-bom:${springPlatformVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
