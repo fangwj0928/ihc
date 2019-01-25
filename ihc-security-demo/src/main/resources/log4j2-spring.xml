@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration status="WARN">
+    <properties>
+        <!-- 文件输出格式 %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%thread] %class{36}-%M [%L] : %msg%n-->
+        <property name="PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %class{36}-%M [%L] : %msg%n</property>
+
+
+        <property name="LOG_HOME">E:/logs</property>
+        <property name="FILE_NAME">demo</property>
+    </properties>
+
+    <appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN}" />
+        </Console>
+
+        <RollingFile name="RollingFileError" fileName="${LOG_HOME}/${FILE_NAME}.error.log"  filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{MM-dd-yyyy}-%i.error.log.gz">
+
+            <ThresholdFilter level="ERROR"/>
+
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+
+        </RollingFile>
+
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/${FILE_NAME}.info.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{MM-dd-yyyy}-%i.info.log.gz">
+
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+
+            <PatternLayout pattern="${PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <logger name="com.example" level="debug" />
+        <root level="debug">
+            <appenderref ref="CONSOLE" />
+            <appenderref ref="RollingFileInfo" />
+            <appenderref ref="RollingFileError" />
+        </root>
+    </loggers>
+
+</configuration>
